@@ -37,6 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "Registration",
+    "student",
+    'rest_framework',
+    
+    #'registration.apps.RegistrationConfig',
+
 ]
 
 MIDDLEWARE = [
@@ -74,13 +80,16 @@ WSGI_APPLICATION = 'porbe.wsgi.application'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
+    #"default": {
+     #   "ENGINE": "django.db.backends.sqlite3",
+      #  "NAME": BASE_DIR / "db.sqlite3",
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'studentdb',
-        'USER': 'postgres',
-        'PASSWORD': 'asdfg12345',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'studentdb',
+       'USER': 'postgres',
+       'PASSWORD': 'qwerty12345',
+       'HOST': '127.0.0.1',
+       'PORT': '5432',
     }
 }
 
