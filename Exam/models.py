@@ -1,5 +1,5 @@
 from django.db import models
-from student.models import StudentInfo
+from details.models import StudentInfo
 
 
 class Subject(models.Model):

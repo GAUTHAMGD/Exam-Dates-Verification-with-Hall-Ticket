@@ -1,5 +1,5 @@
 from django.urls import path
-from student.views import StudentCreateView, ExamCheckView, HallTicketView, UpcomingExamView
+from details.views import StudentCreateView, ExamCheckView, HallTicketView, UpcomingExamView
 
 urlpatterns = [
     path('api/student/', StudentCreateView.as_view()),

@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     "Registration",
-    "student",
+    "details",
     'rest_framework',
     
     #'registration.apps.RegistrationConfig',
