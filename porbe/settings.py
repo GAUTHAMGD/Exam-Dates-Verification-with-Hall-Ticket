@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     "Registration",
     "details",
+    "Exam",
     'rest_framework',
     
     #'registration.apps.RegistrationConfig',
