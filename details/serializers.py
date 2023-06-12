@@ -1,30 +1,22 @@
 from rest_framework import serializers
-from .models import StudentInfo, ExamInfo, Subject
+from .models import Exam, Student, HallTicket
 
-
-class SubjectSerializer(serializers.ModelSerializer):
+class ExamSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Subject
-        fields = ('name',)
+        model = Exam
+        fields = ['id', 'subject', 'date']
 
-
-class StudentInfoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudentInfo
-        fields = ('id', 'first_name', 'last_name', 'roll_number', 'date_of_birth', 'department', 'year', 'created_at')
-
-
-class ExamInfoSerializer(serializers.ModelSerializer):
-    subjects = SubjectSerializer(many=True)
+class StudentSerializer(serializers.ModelSerializer):
+    exams = ExamSerializer(many=True, read_only=True)
 
     class Meta:
-        model = ExamInfo
-        fields = ('id', 'first_name', 'last_name', 'roll_number', 'date_of_birth', 'department', 'year', 'created_at', 'subjects')
+        model = Student
+        fields = ['id', 'name', 'roll_number', 'exams']
 
-    def create(self, validated_data):
-        subjects_data = validated_data.pop('subjects')
-        exam_info = ExamInfo.objects.create(**validated_data)
-        for subject_data in subjects_data:
-            subject = Subject.objects.create(**subject_data)
-            exam_info.subjects.add(subject)
-        return exam_info
+class HallTicketSerializer(serializers.ModelSerializer):
+    student = StudentSerializer(read_only=True)
+    exam = ExamSerializer(read_only=True)
+
+    class Meta:
+        model = HallTicket
+        fields = ['id', 'student', 'exam', 'hall_ticket_number']

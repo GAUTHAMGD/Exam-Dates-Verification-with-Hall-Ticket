@@ -1,17 +1,13 @@
 from django.urls import path
-from .views import StudentViewSet,SubjectViewSet,ExamViewSet
-from . import views
-from .views import enter_registration_number
+from .views import ExamListCreateView, StudentListCreateView, HallTicketListCreateView, create_hallticket
 
 
+app_name = 'hallticket'
 urlpatterns = [
-    path("studentViewSet/create", StudentViewSet.as_view({"post": "create"})),
-    path("subjectViewSet/create",   SubjectViewSet.as_view({"post": "create"})),
-    path("examViewSet/create",  ExamViewSet.as_view({"post": "create"})),
-    path('enter-registration/', enter_registration_number, name='enter_registration'),
-    path('my-url/', views.my_view, name='my_view'),
-    
+    path('exams/', ExamListCreateView.as_view()),
+    path('students/', StudentListCreateView.as_view()),
+    path('halltickets/', HallTicketListCreateView.as_view()),
+    path('create/', create_hallticket, name='create'),
 ]
 
 
-    
