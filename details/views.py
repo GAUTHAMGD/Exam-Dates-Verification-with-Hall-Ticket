@@ -20,22 +20,30 @@ class HallTicketListCreateView(generics.ListCreateAPIView):
 
 
 
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseServerError
+from django.db import IntegrityError
+
 def create_hallticket(request):
     if request.method == 'POST':
-        student_id = request.POST['student_id']
-        exam_id = request.POST['exam_id']
-        hall_ticket_number = request.POST['hall_ticket_number']
+        student_id = request.POST.get('student_id')
+        exam_id = request.POST.get('exam_id')
+        hall_ticket_number = request.POST.get('hall_ticket_number')
 
-        student = get_object_or_404(Student, id=student_id)
-        exam = get_object_or_404(Exam, id=exam_id)
+        try:
+            student = get_object_or_404(Student, id=student_id)
+            exam = get_object_or_404(Exam, id=exam_id)
 
-        hall_ticket = HallTicket.objects.create(
-            student=student,
-            exam=exam,
-            hall_ticket_number=hall_ticket_number
-        )
+            hall_ticket = HallTicket.objects.create(
+                student=student,
+                exam=exam,
+                hall_ticket_number=hall_ticket_number
+            )
 
-        # Perform any other actions or redirect to a success page
+            # Perform any other actions or redirect to a success page
+
+        except IntegrityError:
+            return HttpResponseServerError("Error: Failed to create hall ticket. Please check your input.")
 
     # Render the form for creating a hall ticket
     students = Student.objects.all()
@@ -47,4 +55,3 @@ def create_hallticket(request):
     }
 
     return render(request, 'create_hallticket.html', context)
-
