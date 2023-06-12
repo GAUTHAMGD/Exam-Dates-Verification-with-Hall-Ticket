@@ -53,30 +53,30 @@ def enter_registration_number(request):
             return render(request, 'invalid_registration.html')
     return render(request, 'enter_registration.html')
 
-#def my_view(request):
-#    if request.method == 'POST':
-#        # Handle the POST request
-#        return HttpResponse('This is a POST request.')
- #   elif request.method == 'GET':
-#        # Handle the GET request
-#        return HttpResponse('This is a GET request.')
-#    else:
-#       # Handle other HTTP methods
-#        return HttpResponse('This is a different HTTP method.')
+def my_view(request):
+   if request.method == 'POST':
+       # Handle the POST request
+       return HttpResponse('This is a POST request.')
+   elif request.method == 'GET':
+       # Handle the GET request
+       return HttpResponse('This is a GET request.')
+   else:
+      # Handle other HTTP methods
+       return HttpResponse('This is a different HTTP method.')
 
        
-# class StudentCreateView(APIView):
-#     # view logic for creating a student
-#     pass
+class StudentCreateView(APIView):
+    # view logic for creating a student
+    pass
 
-# class ExamCheckView(APIView):
-#     # view logic for checking exam
-#     pass
+class ExamCheckView(APIView):
+    # view logic for checking exam
+    pass
 
-# class HallTicketView(APIView):
-#     # view logic for hall ticket
-#     pass
+class HallTicketView(APIView):
+    # view logic for hall ticket
+    pass
 
-# class UpcomingExamView(APIView):
-#     # view logic for upcoming exams
-#     pass
+class UpcomingExamView(APIView):
+    # view logic for upcoming exams
+    pass
