@@ -20,9 +20,9 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name  
-# class Exam(models.Model):
+#class Exam(models.Model):
 #    student = models.ForeignKey(StudentInfo, on_delete=models.CASCADE)
-#    subject = models.ForeignKey(ExamInfo, on_delete=models.CASCADE)
-   
-#    class Meta:
-#        verbose_name_plural = "Student Info"
+    # subject = models.ForeignKey(ExamInfo, on_delete=models.CASCADE)
+  
+    # class Meta:
+    #     verbose_name_plural = "Student Info"

@@ -1,42 +1,35 @@
 from rest_framework import generics
-from .models import StudentInfo,ExamInfo
-from .serializers import StudentSerializer
+from .models import StudentInfo,ExamInfo,Subject
+from .serializers import SubjectSerializer,StudentInfoSerializer,ExamInfoSerializer
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED, HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED
 from rest_framework.viewsets import ViewSet
-from .serializers import StudentSerializer
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from django.http import HttpResponse
 from django.shortcuts import render
-from .models import StudentInfo
 
-class studentViewSet(ViewSet):
+
+class StudentViewSet(ViewSet):
     def create(self, request):
-        data = request.data
-        data.update({"user": request.user.id})
-        serializer = StudentSerializer(data=request.data)
+        serializer = StudentInfoSerializer(data=request.data)
         if serializer.is_valid():
             student = serializer.save()
             return Response(data=serializer.data, status=HTTP_201_CREATED)
         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)
 
-class subjectViewSet(ViewSet):
+class SubjectViewSet(ViewSet):
     def create(self, request):
-        data = request.data
-        data.update({"user": request.user.id})
         serializer = SubjectSerializer(data=request.data)
         if serializer.is_valid():
             subject = serializer.save()
             return Response(data=serializer.data, status=HTTP_201_CREATED)
         return Response(data=serializer.errors, status=HTTP_400_BAD_REQUEST)    
-    
-class examViewSet(ViewSet):
+
+class ExamViewSet(ViewSet):
     def create(self, request):
-        data = request.data
-        data.update({"user": request.user.id})
-        serializer = ExamSerializer(data=request.data)
+        serializer = ExamInfoSerializer(data=request.data)
         if serializer.is_valid():
             exam = serializer.save()
             return Response(data=serializer.data, status=HTTP_201_CREATED)
@@ -48,7 +41,7 @@ def enter_registration_number(request):
         try:
             student = StudentInfo.objects.get(registration_number=registration_number)
             subjects = student.subjects.all()
-            return render(request, 'subject_list.html', {'subjects': subjects})
+            return render(request, 'subject_list.html', {'student': student, 'subjects': subjects})
         except StudentInfo.DoesNotExist:
             return render(request, 'invalid_registration.html')
     return render(request, 'enter_registration.html')

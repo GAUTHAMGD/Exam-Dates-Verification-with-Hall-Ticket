@@ -1,26 +1,30 @@
 from rest_framework import serializers
-from .models import StudentInfo, ExamInfo
-from rest_framework.validators import UniqueValidator
-from django.db.models import DateField
+from .models import StudentInfo, ExamInfo, Subject
 
 
-class StudentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = StudentInfo
-        fields = ('first_name', 'last_name', 'roll_number', 'date_of_birth', 'department', 'year', 'created_at')
-        extra_kwargs = {
-            'roll_number': {'validators': []}  # Add any validators you want to apply to the roll_number field
-        }
-    
 class SubjectSerializer(serializers.ModelSerializer):
     class Meta:
-        model = ExamInfo
-        fields = ('name', 'exam_date')
+        model = Subject
+        fields = ('name',)
 
-class ExamSerializer(serializers.ModelSerializer):
-    student = StudentSerializer()
-    subject = SubjectSerializer()
+
+class StudentInfoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StudentInfo
+        fields = ('id', 'first_name', 'last_name', 'roll_number', 'date_of_birth', 'department', 'year', 'created_at')
+
+
+class ExamInfoSerializer(serializers.ModelSerializer):
+    subjects = SubjectSerializer(many=True)
 
     class Meta:
         model = ExamInfo
-        fields = '__all__'
+        fields = ('id', 'first_name', 'last_name', 'roll_number', 'date_of_birth', 'department', 'year', 'created_at', 'subjects')
+
+    def create(self, validated_data):
+        subjects_data = validated_data.pop('subjects')
+        exam_info = ExamInfo.objects.create(**validated_data)
+        for subject_data in subjects_data:
+            subject = Subject.objects.create(**subject_data)
+            exam_info.subjects.add(subject)
+        return exam_info
