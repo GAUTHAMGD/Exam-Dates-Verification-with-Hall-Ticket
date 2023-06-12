@@ -1,11 +1,21 @@
-from django.urls import path
-from . import views
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
+from .views import SubjectViewSet, HallTicketViewSet, HallticketListCreateView
+
+
+router = DefaultRouter()
+router.register('subjects', SubjectViewSet)
+router.register('halltickets', HallTicketViewSet)
+
+app_name = 'Exam'
 
 urlpatterns = [
-    path('students/', views.StudentViewSet.as_view({'post': 'create'}), name='student-create'),
-    path('myview/', views.MyView.as_view(), name='my-view'),
-    path('student-create/', views.StudentCreateView.as_view(), name='student-create-view'),
-    path('exam-check/', views.ExamCheckView.as_view(), name='exam-check-view'),
-    path('hall-ticket/', views.HallTicketView.as_view(), name='hall-ticket-view'),
-    path('upcoming-exam/', views.UpcomingExamView.as_view(), name='upcoming-exam-view'),
+    path('', include(router.urls)),
+    path('halltickets/', HallticketListCreateView.as_view(), name='hallticket-list-create'),
 ]
+
+
+
+
+
+
